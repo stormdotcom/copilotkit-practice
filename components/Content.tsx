@@ -8,7 +8,6 @@ import { Fragment } from "react";
 const Content: React.FC = () => {
   const { visibleMessages } = useDocumentContext();
 
-  // Filter out messages from the user.
   const nonUserMessages = visibleMessages.filter(
     (msg) => msg.role !== Role.User
   );

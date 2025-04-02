@@ -17,7 +17,7 @@ export function ConfirmChangesModal({
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onClose}>
-        {/* Overlay transition */}
+
         <Transition.Child
           as={Fragment}
           enter="transition-opacity duration-300"
@@ -30,7 +30,6 @@ export function ConfirmChangesModal({
           <div className="fixed inset-0 bg-opacity-25" />
         </Transition.Child>
 
-        {/* Modal panel transition */}
         <div className="fixed inset-0 overflow-y-auto flex items-center justify-center p-4">
           <Transition.Child
             as={Fragment}

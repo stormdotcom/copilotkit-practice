@@ -12,12 +12,9 @@ export function CustomChatInterface(): JSX.Element {
   const { visibleMessages, appendMessage, stopGeneration, isLoading } =
     useDocumentContext();
 
-  // Input state for user messages
   const [inputValue, setInputValue] = useState<string>("");
-  // Modal state (if needed for confirmation)
   const [isConfirmOpen, setIsConfirmOpen] = useState<boolean>(false);
 
-  // Initialize the LangGraph agent with additional configuration.
   const { agentState, sendAgentMessage } = useCoAgent({
     name: "langgraphAgent",
     initialState: { input: "" },
@@ -31,7 +28,6 @@ export function CustomChatInterface(): JSX.Element {
     },
   });
 
-  // When a user sends a message, forward it to the agent.
   const handleSend = (): void => {
     if (inputValue.trim() !== "") {
       appendMessage(new TextMessage({ content: inputValue, role: Role.User }));
@@ -40,7 +36,6 @@ export function CustomChatInterface(): JSX.Element {
     }
   };
 
-  // Listen for the agent's final response.
   useEffect(() => {
     if (agentState && agentState.final_response) {
       appendMessage(
@@ -49,27 +44,22 @@ export function CustomChatInterface(): JSX.Element {
           role: Role.Assistant,
         })
       );
-      // Optionally, open a modal for confirmation
       setIsConfirmOpen(true);
     }
   }, [agentState, appendMessage]);
 
-  // Stop generating (with event propagation stopped)
   const handleStopClick = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
     stopGeneration();
   };
 
-  // Modal callbacks
   const handleCloseModal = (): void => setIsConfirmOpen(false);
   const handleConfirm = (): void => {
-    // Apply AI changes to the document if necessary.
     setIsConfirmOpen(false);
   };
 
   return (
     <div className="flex flex-col h-full">
-      {/* Message List */}
       <div className="flex-grow overflow-y-auto mb-4 space-y-2">
         {visibleMessages.map((msg, index) => (
           <Transition
@@ -119,14 +109,12 @@ export function CustomChatInterface(): JSX.Element {
         )}
       </div>
 
-      {/* Confirm Changes Modal (Optional) */}
       <ConfirmChangesModal
         isOpen={isConfirmOpen}
         onClose={handleCloseModal}
         onConfirm={handleConfirm}
       />
 
-      {/* Input and Send/Stop Area */}
       <div className="flex items-center">
         <input
           type="text"
